@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Jay C. Davé</title>
+    <link rel="stylesheet" href="./styles/bootstrap.css" />
+    <link rel="stylesheet" href="./styles/backgrid.css" />
+    <link rel="stylesheet" href="./styles/backgrid-paginator.css" />
+</head>
+
+<body>
+    <div id="main">
+        <div class="col-md-12">
+            <div id="grid"></div>
+            <div id="paginator"></div>
+        </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="./lib/backbone.paginator.js"></script>
+    <script src="./lib/backgrid.js"></script>
+    <script src="./lib/backgrid.paginator.js"></script>
+
+   <!--Uncomment this to see full backbone.js application  -->
+
+    <!-- <script src="./models/quotesModel.js"></script>
+    <script src="./views/singleQuotesView.js"></script>
+    <script src="./views/allQuotesView.js"></script>
+    <script src="./collections/allQuotes.js"></script> -->
+
+<!--      $(function() {
+        var postFetchBoot = function(collection) {
+            $('#main-view').append(new QuoteListView({
+                collection: collection
+            }).$el);
+        };
+        new Quotes().fetch({
+            success: postFetchBoot
+        });
+    }); -->
+
+    <script>
+    var columns = [{
+        name: "quote",
+        cell: "string",
+        editable: false
+
+    }, {
+        name: "context",
+        cell: "string",
+        editable: false
+    }, {
+        name: "source",
+        cell: "string",
+        editable: false
+    }, {
+        name: "theme",
+        cell: "string",
+        editable: false
+
+    }];
+    var Quotes = Backbone.PageableCollection.extend({
+        url: "https://gist.githubusercontent.com/anonymous/8f61a8733ed7fa41c4ea/raw/1e90fd2741bb6310582e3822f59927eb535f6c73/quotes.json",
+        mode: "client",
+        state: {
+            pageSize: 15
+        }
+
+    });
+    var quotes = new Quotes();
+    var grid = new Backgrid.Grid({
+        columns: columns,
+        collection: quotes
+    });
+    var paginator = new Backgrid.Extension.Paginator({
+        collection: quotes
+    });
+    $("#grid").append(grid.render().$el);
+    $("#paginator").append(paginator.render().$el);
+    quotes.fetch();
+    </script>
+</body>
+
+</html>
