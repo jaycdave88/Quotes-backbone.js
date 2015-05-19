@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Jay C. Davé</title>
+    <link rel="stylesheet" href="./styles/myStyle.css" />
+</head>
+
+<body>
+    <div id="main-view"></div>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script src="./models/quotesModel.js"></script>
+    <script src="./views/singleQuotesView.js"></script>
+    <script src="./views/allQuotesView.js"></script>
+    <script src="./collections/allQuotes.js"></script>
+    <script>
+    $(function() {
+        var postFetchBoot = function(collection) {
+            $('#main-view').append(new QuoteListView({
+                collection: collection
+            }).$el);
+        };
+        new Quotes().fetch({
+            success: postFetchBoot
+        });
+    });
+    </script>
+</body>
+</html>
